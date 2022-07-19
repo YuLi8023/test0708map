@@ -1,0 +1,48 @@
+<template>
+    <div id="mapview"></div>
+</template>
+
+<script>
+import { loadModules } from 'esri-loader';
+
+const options = {
+    url: 'https://js.arcgis.com/4.24/',
+    css: 'https://js.arcgis.com/4.24/esri/themes/light/main.css',
+}
+
+export default {
+    name: 'Mapview',
+    components: {},
+    mounted: function () {    //vue的生命周期，加载完之后再触发。
+        this._createMapView();
+    },
+    methods: {
+        async _createMapView() {
+            const [Map, MapView] = await loadModules(
+                ['esri/Map', 'esri/views/MapView'],
+                options
+            );
+            const map = new Map({
+                basemap: 'osm',
+            });
+            const view = new MapView({
+                container: 'mapview',
+                map: map,
+                zoom: 10,
+                center: [116.403119, 39.918034],
+            });
+
+            view.ui.components = [];
+            console.log(view);
+        },
+    },
+}
+</script>
+
+<style>
+#mapview {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+</style>
